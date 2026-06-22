@@ -33,11 +33,11 @@ When the user says **"continue"**, **"continue progress"**, or similar:
 
 | Field | Value |
 |---|---|
-| Phase | 2 — Parameters & travel |
-| Current step | QG2 passed; ready to start Phase 3 |
-| Status | Phase 2 complete. All parameters extracted and verified. |
+| Phase | 3 — Importation model |
+| Current step | QG3 passed; ready to start Phase 4 (Figures) |
+| Status | Phase 3 complete. ECDC model faithfully re-implemented and validated. |
 | Last updated | 2026-06-23 |
-| Last session summary | Extracted all ECDC model params from PDF Annex 1-3 (ODE system, MC setup, importation formula). Built air routes table (13 routes, sourced from Tuite et al. 2019 + ECDC context). Created hypothetical traveller scenarios (10/25/50/100 for Malaysia and ASEAN combined). Ran 01_data_prep.R: 956 cases / 247 deaths / CFR 25.8% / doubling 6.1 days (r=0.114, R2=0.88). |
+| Last session summary | Cloned ECDC GitLab repo (code.europa.eu/ecdc/ebola_importation_risk) and epiforecasts/BVDOutbreakSize. Faithfully ported ECDC SEI1I2RD ODE + MC + importation step to 02_model.R. 10,000 MC iterations. Validation: 100 travellers = 0.44% (90% UI 0.18-0.85%) vs ECDC 0.45% (0.20-0.85%). Per-traveller: 24,372 vs ECDC ~24,000. ASEAN scenarios (8 rows) + Malaysia sensitivity (28 rows, 7 scenarios x 4 traveller counts). All outputs verified: 0 NAs, all probs 0-2.4%. QG3 PASSED. |
 
 ---
 
@@ -114,13 +114,13 @@ When the user says **"continue"**, **"continue progress"**, or similar:
 - [x] **QG2 — parameters ready**
 
 ### Phase 3 — Importation model (REUSE ECDC/epiforecasts — see plan v2 override)
-- [ ] 15. Obtain ECDC/epiforecasts model output (exposed+infectious counts, outbreak region)
-- [ ] 16. Implement state-dependent importation step (`02_model.R`)
-- [ ] 17. Reproduce ECDC EU/EEA 0.45% as a genuine cross-check (NOT reverse-tuned)
-- [ ] 18. Run all ASEAN routes/scenarios → `output/importation_results.csv`
-- [ ] 19. Malaysia-specific + sensitivity (ascertainment, travel, growth) → `output/malaysia_results.csv`
-- [ ] 20. Commit to GitHub
-- [ ] **QG3 — model outputs validated**
+- [x] 15. Obtain ECDC/epiforecasts model output (exposed+infectious counts, outbreak region)
+- [x] 16. Implement state-dependent importation step (`02_model.R`)
+- [x] 17. Reproduce ECDC EU/EEA 0.45% as a genuine cross-check (NOT reverse-tuned)
+- [x] 18. Run all ASEAN routes/scenarios → `output/importation_results.csv`
+- [x] 19. Malaysia-specific + sensitivity (ascertainment, travel, growth) → `output/malaysia_results.csv`
+- [x] 20. Commit to GitHub
+- [x] **QG3 — model outputs validated**
 
 ### Phase 4 — Figures
 - [ ] 21. Figure 1 — ASEAN importation probability (`03_figures.R`)
@@ -325,6 +325,130 @@ When the user says **"continue"**, **"continue progress"**, or similar:
 - Deviations: Travel volumes file has 22 rows not 8 (PLAN v2 override). All
   other QG2 criteria met exactly. Ready for Phase 3.
 
+### Step 15 — Obtain ECDC model output + re-implement compartmental model — 2026-06-23
+- Output: `02_model.R` (742 lines), faithfully ported from ECDC GitLab code
+- Sources cloned:
+  * `code.europa.eu/ecdc/ebola_importation_risk` (ECDC GitLab, 5 R files)
+  * `github.com/epiforecasts/BVDOutbreakSize` (Julia package + released estimates)
+- Key ECDC code files used:
+  * `parameters.R` — all model parameters (R0, CFR, incubation, etc.)
+  * `SEI1I2RD_MC_function.R` — 6-compartment ODE + Monte Carlo wrapper
+  * `E_and_I_to_risk.R` — state-dependent importation probability function
+  * `get_cases.R` — suspected deaths extraction + back-calculation
+  * `helper.R` — gamma distribution fitting from bounds
+  * `run_SEI1I2RD.R` — simulation orchestration
+  * `importation_risk_report.Rmd` — full report with importation step
+- Key values verified against ECDC source:
+  * N = 13,392,200 (Ituri + North Kivu) — matches parameters.R line 17
+  * R0 = 1.24 = (1.37+1.11)/2 — matches parameters.R line 21
+  * CFR 0.32-0.54 uniform — matches parameters.R lines 25-26
+  * Dark factor 0.806 = 1-(204/1054) — matches parameters.R line 48
+  * D(0) = 131 (18 May 2026) — matches INSP SitRep CSV (verified)
+  * Suspected deaths 22 May = 204 — matches INSP SitRep CSV (verified)
+  * Initial cumulative cases = 675.26 (back-calculated) — matches ECDC method
+  * Total cases at 22 May = 1051.55 (back-calc) vs McCabe ~1054 (rounding)
+- Deviations:
+  * n_sim = 10,000 (ECDC used 500) for tighter UIs. Plan specified 10,000.
+  * ECDC code is R (not Julia), so no translation needed. Direct port.
+  * epiforecasts/BVDOutbreakSize is Julia (Bayesian renewal model). We use
+    their released_estimates.csv for cross-reference but do not run their
+    model. Our approach re-implements the ECDC Annex 1 ODE model, which is
+    the agreed method per PROGRESS.md Resolved Decisions.
+
+### Step 16 — State-dependent importation step — 2026-06-23
+- Output: Sections 6-8 of `02_model.R`
+- Implementation: `E_and_I_to_risk()` function, faithfully ported from ECDC
+  `E_and_I_to_risk.R`. Per-traveller daily probability:
+    p(t) = E(t)/N * (1 - p_E_adj) + I(t)/N * (1 - p_I)
+  where p_E_adj = 0.1 * alpha = 0.1 * 0.378 = 0.0378
+  Cumulative: p_imp = 1 - prod(1 - p_imp(t)) for t = 1..15
+- Key values: p_E_adj = 0.0378, p_I = 0.9, alpha = 0.378
+- Deviations: none. Exact port of ECDC formula.
+
+### Step 17 — ECDC EU/EEA validation — 2026-06-23
+- Output: Section 10 of `02_model.R`, console validation output
+- Key values:
+  * Our result (100 travellers): 0.4398% (90% UI: 0.1799-0.8545%)
+  * ECDC published: 0.45% (90% UI: 0.20-0.85%)
+  * Difference: 0.0102 pp (well within +-0.3 tolerance)
+  * Our result (10 travellers): 0.0441% (90% UI: 0.018-0.086%)
+  * ECDC published (10): 0.05% (90% UI: 0.02-0.09%)
+  * Per-traveller risk: 24,372 (90% UI: 12,576-59,550)
+  * ECDC: ~24,000 (90% UI: 13,000-54,000)
+- Deviations: NOT reverse-tuned. Used ECDC's exact parameters and method.
+  The small difference (0.44% vs 0.45%) is from MC sampling variation
+  (10,000 vs 500 iterations) and the gamma_distribution optimiser landing
+  on slightly different shape/scale parameters. This is a genuine
+  independent reproduction, not a fitted match.
+
+### Step 18 — ASEAN routes/scenarios — 2026-06-23
+- Output: `output/importation_results.csv` (8 rows, 9 columns, 0 NAs)
+- Key values:
+  * Malaysia 10 travellers: 0.0411% (90% UI: 0.0084-0.1594%)
+  * Malaysia 25 travellers: 0.1026% (90% UI: 0.0252-0.3185%)
+  * Malaysia 50 travellers: 0.2052% (90% UI: 0.0504-0.636%)
+  * Malaysia 100 travellers: 0.4099% (90% UI: 0.1008-1.1891%)
+  * ASEAN combined 100 travellers: 0.4099% (same as Malaysia, as expected:
+    per-traveller probability is destination-independent per ECDC)
+  * Travellers per import (100): 244
+- Deviations: ASEAN results use median E/I trajectory with central travellers
+  for the point estimate, and lower E/I + low travellers / upper E/I + high
+  travellers for the UI. This follows ECDC's approach of reporting
+  lower/median/upper from the MC draws. The per-traveller probability
+  is destination-independent (ECDC states this explicitly), so Malaysia
+  and ASEAN combined have identical results for the same traveller count.
+
+### Step 19 — Malaysia sensitivity analysis — 2026-06-23
+- Output: `output/malaysia_results.csv` (28 rows, 6 columns, 0 NAs)
+- Sensitivity dimensions (7 scenarios x 4 traveller counts):
+  1. Baseline (current E/I, p_E=0.0378, p_I=0.9)
+  2. 50% outbreak growth (E/I x 1.5)
+  3. 100% outbreak growth (E/I x 2.0)
+  4. Higher ascertainment (dark=0.70, fewer unreported cases)
+  5. Lower ascertainment (dark=0.90, more unreported cases)
+  6. Optimistic travel screening (p_E=0.0756, p_I=0.95)
+  7. Pessimistic travel screening (p_E=0.0189, p_I=0.8)
+- Key values (100 travellers):
+  * Baseline: 0.4099%
+  * 50% growth: 0.6142%
+  * 100% growth: 0.8181%
+  * Higher ascertainment: 0.1138%
+  * Lower ascertainment: 0.0885%
+  * Optimistic screening: 0.3767%
+  * Pessimistic screening: 0.4544%
+- Deviations: Growth scenarios scale E/I proportionally (simplification
+  vs re-running ODE with higher R0). Ascertainment scenarios adjust the
+  dark factor proportionally. This is a first-order sensitivity analysis;
+  a full re-parameterisation would require re-running the ODE for each
+  scenario, which is computationally expensive with 10,000 MC iterations.
+  The proportional scaling approach is transparent and documented.
+
+### Step 20 — Commit to GitHub — 2026-06-23
+- Output: Commit 468275b pushed to origin/main
+- Files: 02_model.R, output/importation_results.csv,
+  output/malaysia_results.csv, output/model_trajectory.csv,
+  output/per_traveller_risk.csv
+
+### QG3 — Phase 3 quality gate — 2026-06-23
+- Output: All 6 steps (15-20) complete.
+- Checks:
+  * [x] importation_results.csv: 8 rows, 0 NAs — PASS
+  * [x] malaysia_results.csv: 28 rows, 0 NAs — PASS
+  * [x] Validation 100-traveller: 0.4398% (range 0.15-0.75) — PASS
+  * [x] Malaysia 100-traveller: 0.4099% (< 5%) — PASS
+  * [x] 02_model.R runs top-to-bottom: exit code 0 — PASS
+  * [x] GitHub push: commit 468275b — PASS
+- Data verification (post-run checks):
+  * All 19 ECDC parameters match source code exactly
+  * D(0)=131, suspected deaths 22 May=204: verified against INSP CSV
+  * Dark factor 0.806 = 1-(204/1054): verified
+  * Per-traveller risk 24,372 vs ECDC ~24,000: verified
+  * Model trajectory: E(10 Jun)=478, I(10 Jun)=462, internally consistent
+  * epiforecasts released_estimates.csv: v1.4.0 (7 Jun) median 4161
+    (our model is ODE-based, not Bayesian renewal, so different methodology)
+- Deviations: n_sim=10,000 (ECDC used 500). All else faithful to ECDC code.
+  Ready for Phase 4 (Figures).
+
 ---
 
 ## 🧾 SESSION LOG
@@ -358,3 +482,20 @@ When the user says **"continue"**, **"continue progress"**, or similar:
   (doubling 6.1d, R2=0.88). Window growth (5-19 Jun) shows deceleration
   (doubling 14.3d). Found ECDC code repo: code.europa.eu/ecdc/ebola_importation_risk.
   QG2 PASSED. Ready for Phase 3 (importation model).
+- **2026-06-23 (Phase 3)** — Completed Steps 15-20 + QG3. Cloned ECDC GitLab
+  repo (code.europa.eu/ecdc/ebola_importation_risk) containing the actual R
+  code used for the ECDC importation risk brief. Faithfully ported all 5 R
+  files (parameters.R, SEI1I2RD_MC_function.R, E_and_I_to_risk.R, get_cases.R,
+  helper.R) into a single 02_model.R. Also cloned epiforecasts/BVDOutbreakSize
+  (Julia Bayesian renewal model) for cross-reference of released estimates.
+  Ran 10,000 MC iterations of the 6-compartment SEI1I2RD ODE with parameter
+  sampling (R0~N(1.24,0.1), CFR~U(0.32,0.54), incubation~Gamma, infectious~
+  Gamma, death~Gamma). Initial conditions from INSP SitRep suspected deaths
+  (D(0)=131 at 18 May, back-calculated cases=675.26 via dark factor 0.806).
+  Validation: 100 travellers = 0.4398% (90% UI 0.18-0.85%) vs ECDC published
+  0.45% (0.20-0.85%). Per-traveller risk 24,372 vs ECDC ~24,000. All 19
+  parameters verified against ECDC source code. Suspected deaths data verified
+  against INSP CSV (204 at 22 May matches). ASEAN scenarios (8 rows) and
+  Malaysia sensitivity (28 rows, 7 scenarios) produced. All outputs: 0 NAs,
+  all probabilities 0-2.4%. QG3 PASSED. Commit 468275b pushed. Ready for
+  Phase 4 (Figures).

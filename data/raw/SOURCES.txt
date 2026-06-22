@@ -1,0 +1,110 @@
+# Data Provenance — SOURCES.txt
+# Project: BDBV Importation Risk — Malaysia/ASEAN
+# Last updated: 2026-06-23
+
+This file documents every external source used in the analysis, with download
+dates, identifiers, and licence notes. The corresponding source files live in
+the subfolders of data/raw/.
+
+================================================================================
+A. INRB-UMIE outbreak data (PRIMARY EPIDEMIOLOGICAL SOURCE)
+================================================================================
+- Repository : https://github.com/INRB-UMIE/Ebola_DRC_2026
+  (also referenced as BDBV2026-Data)
+- Built      : 30 May 2026 (per repo; subsequent updates applied)
+- Cloned on  : 2026-06-23
+- Local copy : ~/Ebola_DRC_2026/  (not committed; outside repo)
+- Files copied into data/raw/ :
+    * data/insp_sitrep/processed/*.csv          (34 daily SitRep CSVs)
+    * data/epi/processed/*.csv                  (1 weekly epi CSV)
+    * data/aggregated_insp_linelist/processed/*.csv  (2 onset CSVs)
+- Licence    : Repository license as published (MIT/CC-BY-SA per repo
+               LICENSE.md — verify before redistribution)
+- Citation   : INRB-UMIE, "Ebola_DRC_2026", GitHub, 2026.
+- Note       : All figures used in this project are aggregated surveillance
+               data; no individual patient data. Données à caractère
+               personnel : aucune (CNIL/PDPA compliance not triggered).
+
+================================================================================
+B. WHO Disease Outbreak News (DON) — primary public-health-source statements
+================================================================================
+- Source     : https://www.who.int/emergencies/disease-outbreak-news/
+- Format     : HTML (WHO does not serve DONs as PDF)
+- Saved to   : data/raw/who_don/
+- Files      :
+    * DON602.html  — 15 May 2026 — DRC initial declaration
+                     (246 suspected cases, 80 deaths, 4 confirmed deaths)
+    * DON603.html  — 21 May 2026 — DRC update
+                     (83 confirmed, 9 deaths, CFR 11%; Uganda 2 conf, 1 death)
+    * DON605.html  — 29 May 2026 — DRC + Uganda update
+                     (DRC 125 conf, 17 deaths, CFR 14%; Uganda 9 conf, 1 death)
+    * DON606.html  —  8 June 2026 — DRC + Uganda update
+                     (DRC 515 conf, 91 deaths, CFR 17%; Uganda 19 conf, 2 deaths)
+- Licence    : WHO public-content terms; cite as WHO DON602 / DON603 / etc.
+- Note       : The plan's pre-stated "8 cases / 4 deaths on 15 May" was wrong.
+               The INRB data shows 8 CUMULATIVE on 14 May (the first SitRep day),
+               but the WHO DON602 official statement reports 246 suspected / 80
+               total deaths (4 among confirmed) as of 15 May. We use the INRB
+               time series as authoritative and cross-check with the DONs.
+
+================================================================================
+C. ECDC importation-risk brief (METHODOLOGICAL REFERENCE)
+================================================================================
+- Source     : https://www.ecdc.europa.eu/en/publications-data/estimation-
+               importation-risk-bundibugyo-virus-eueea-june-2026
+- Format     : PDF
+- Saved to   : data/raw/ecdc/ECDC_BDBV_importation_brief_2026.pdf
+- Downloaded : 2026-06-22
+- Licence    : © ECDC, reused under ECDC reuse policy with attribution.
+               Source PDF not committed to git (.gitignore *.pdf) — keep local.
+- Key result cited : ~1 importation per 24,000 EU/EEA travellers
+                     (90% UI 13,000–54,000); 0.45% (90% UI 0.20–0.85%)
+                     for 100 travellers, 11–25 June 2026 study window.
+
+================================================================================
+D. McCabe et al. 2026 (outbreak-size estimate)
+================================================================================
+- Citation   : McCabe R, et al. Estimating the outbreak size of Bundibugyo
+               virus disease in DRC, May 2026. Lancet Infect Dis 2026.
+               DOI: 10.1016/S1473-3099(26)00299-9
+- Note       : 400–900 cases as of 20 May 2026 (per published abstract).
+- Use        : Independent prior on outbreak size for sensitivity analysis
+               (Phase 3, Step 19).
+
+================================================================================
+E. ECDC outbreak page (CURRENT-SITUATION REFERENCE)
+================================================================================
+- Source     : https://www.ecdc.europa.eu/en/ebola-outbreak-democratic-
+               republic-congo-and-uganda
+- Use        : Cross-reference for case counts and risk assessment language.
+
+================================================================================
+F. Imperial College GIDA report (20 May 2026)
+================================================================================
+- Source     : https://www.imperial.ac.uk/.../report-ebola-update-20-05-2026/
+- Use        : Outbreak-size and R₀ estimates for sensitivity analysis.
+
+================================================================================
+G. Bayesian re-analysis code (epiforecasts)
+================================================================================
+- Repository : https://github.com/epiforecasts/BVDOutbreakSize
+- Use        : Re-implement or re-use released posterior draws of
+               exposed/infectious counts. Step 15 of the plan.
+
+================================================================================
+DERIVED FILES (not raw)
+================================================================================
+- data/raw/who_don_series.csv
+  Manually curated case/death/death-rate time series, every row traceable to
+  one of: INSP_SitRep, WHO_DON### (cited inline). NO fabricated figures.
+
+================================================================================
+DATA EXCLUSIONS (explicitly NOT used)
+================================================================================
+- "837 cases / 196 deaths on 17 June 2026" from the original draft plan —
+  this figure IS now verified via the INSP_SitRep time series
+  (837 / 196 on 15 June, 896 / 232 on 17 June). The "17 June" date in the
+  draft was off by 2 days; the figures themselves are correct.
+- "CFR 25–51%" — original plan invention. Real CFR is 11–18% among confirmed
+  cases per WHO DONs (lower than historical Bundibugyo outbreaks due to
+  early supportive care; includes backlog-confirmed cases).

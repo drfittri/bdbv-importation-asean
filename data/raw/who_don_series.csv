@@ -1,0 +1,24 @@
+date,country,source,confirmed_cases,confirmed_deaths,cfr_pct,provinces_or_hz,notes
+2026-05-14,DRC,INSP_SitRep,8,4,50.0,"Mongbwalu HZ, Ituri",First day in INSP SitRep
+2026-05-15,DRC,WHO_DON602,53,4,7.5,"Ituri (Mongbwalu, Bunia, Rwampara)","DON602: 64 total (53 confirmed + 11 probable) and 80 deaths overall; 4 confirmed deaths"
+2026-05-17,DRC,INSP_SitRep,13,4,30.8,Ituri,INSP cumulative
+2026-05-18,DRC,INSP_SitRep,33,4,12.1,Ituri,INSP cumulative
+2026-05-19,DRC,INSP_SitRep,51,4,7.8,Ituri,INSP cumulative
+2026-05-20,DRC,INSP_SitRep,64,6,9.4,Ituri,INSP cumulative
+2026-05-21,DRC,WHO_DON603,83,9,10.8,"15 HZ across Ituri, North Kivu, South Kivu","DON603: 746 suspected incl 176 deaths; 2 confirmed UGA incl 1 death"
+2026-05-27,DRC,WHO_DON605,125,17,13.6,"13 HZ (Ituri 7, N Kivu 5, S Kivu 1)","DON605: 906 suspected incl 223 deaths"
+2026-05-29,DRC,INSP_SitRep,165,18,10.9,Ituri+North Kivu,INSP cumulative
+2026-06-02,DRC,INSP_SitRep,294,46,15.6,Ituri+North Kivu,INSP cumulative
+2026-06-05,DRC,INSP_SitRep,432,71,16.4,Ituri+North Kivu,INSP cumulative
+2026-06-06,DRC,WHO_DON606,515,91,17.7,"DRC HZ (full)","DON606: 19 confirmed UGA incl 2 deaths"
+2026-06-09,DRC,INSP_SitRep,635,118,18.6,Ituri+North Kivu,ECDC cited figure
+2026-06-12,DRC,INSP_SitRep,768,159,20.7,Ituri+North Kivu,INSP cumulative
+2026-06-15,DRC,INSP_SitRep,837,196,23.4,Ituri+North Kivu,INSP cumulative
+2026-06-16,DRC,INSP_SitRep,875,202,23.1,Ituri+North Kivu,INSP cumulative
+2026-06-17,DRC,INSP_SitRep,896,232,25.9,Ituri+North Kivu,INSP cumulative
+2026-06-18,DRC,INSP_SitRep,933,245,26.3,Ituri+North Kivu,INSP cumulative
+2026-06-19,DRC,INSP_SitRep,956,247,25.8,"Ituri+North Kivu (Bunia 259, Mongbwalu 209, Rwampara 201)",INSP cumulative
+2026-05-15,UGA,WHO_DON602,1,0,0.0,Kampala,Imported case
+2026-05-20,UGA,WHO_DON603,2,1,50.0,Kampala,DON603
+2026-05-29,UGA,WHO_DON605,9,1,11.1,"Kampala (8), Wakiso (1)",DON605
+2026-06-06,UGA,WHO_DON606,19,2,10.5,Uganda,DON606

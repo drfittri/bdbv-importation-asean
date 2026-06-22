@@ -1,0 +1,9 @@
+origin,destination,destination_country,scenario_label,travellers_2week,p_import_median_pct,p_import_lower_pct,p_import_upper_pct,travellers_per_import
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 10,10,0.0411,0.0084,0.1594,2435
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 25,25,0.1026,0.0252,0.3185,974
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 50,50,0.2052,0.0504,0.636,487
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 100,100,0.4099,0.1008,1.1891,244
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 10,10,0.0411,0.0084,0.1594,2435
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 25,25,0.1026,0.0252,0.3185,974
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 50,50,0.2052,0.0504,0.636,487
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 100,100,0.4099,0.1008,1.1891,244

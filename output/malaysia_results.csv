@@ -1,0 +1,29 @@
+sensitivity_scenario,traveller_scenario,travellers_2week,p_import_median_pct,p_import_lower_pct,p_import_upper_pct
+Baseline,Scenario 10,10,0.0411,0.0084,0.1594
+Baseline,Scenario 25,25,0.1026,0.0252,0.3185
+Baseline,Scenario 50,50,0.2052,0.0504,0.636
+Baseline,Scenario 100,100,0.4099,0.1008,1.1891
+50% outbreak growth,Scenario 10,10,0.0616,0.0126,0.239
+50% outbreak growth,Scenario 25,25,0.1539,0.0378,0.4774
+50% outbreak growth,Scenario 50,50,0.3076,0.0756,0.9524
+50% outbreak growth,Scenario 100,100,0.6142,0.1511,1.7784
+100% outbreak growth,Scenario 10,10,0.0821,0.0168,0.3185
+100% outbreak growth,Scenario 25,25,0.2052,0.0504,0.636
+100% outbreak growth,Scenario 50,50,0.4099,0.1008,1.2679
+100% outbreak growth,Scenario 100,100,0.8181,0.2014,2.3642
+Higher ascertainment (dark=0.70),Scenario 10,10,0.0114,0.0023,0.0442
+Higher ascertainment (dark=0.70),Scenario 25,25,0.0285,0.007,0.0884
+Higher ascertainment (dark=0.70),Scenario 50,50,0.0569,0.014,0.1767
+Higher ascertainment (dark=0.70),Scenario 100,100,0.1138,0.0279,0.331
+Lower ascertainment (dark=0.90),Scenario 10,10,0.0089,0.0018,0.0344
+Lower ascertainment (dark=0.90),Scenario 25,25,0.0221,0.0054,0.0687
+Lower ascertainment (dark=0.90),Scenario 50,50,0.0443,0.0109,0.1374
+Lower ascertainment (dark=0.90),Scenario 100,100,0.0885,0.0217,0.2575
+Optimistic travel screening,Scenario 10,10,0.0377,0.0075,0.1476
+Optimistic travel screening,Scenario 25,25,0.0943,0.0225,0.295
+Optimistic travel screening,Scenario 50,50,0.1885,0.0451,0.5891
+Optimistic travel screening,Scenario 100,100,0.3767,0.0901,1.1016
+Pessimistic travel screening,Scenario 10,10,0.0455,0.0098,0.1742
+Pessimistic travel screening,Scenario 25,25,0.1138,0.0293,0.3482
+Pessimistic travel screening,Scenario 50,50,0.2275,0.0585,0.6952
+Pessimistic travel screening,Scenario 100,100,0.4544,0.117,1.2995

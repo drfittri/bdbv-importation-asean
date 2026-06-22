@@ -1,0 +1,33 @@
+# R
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Source PDFs (copyrighted; reference download, do not commit)
+*.pdf
+*.PDF
+data/raw/*.pdf
+data/raw/*.PDF
+
+# Allow explicitly tracked provenance files
+!data/raw/SOURCES.txt
+!data/raw/.gitkeep
+
+# Processed intermediates
+data/processed/*.tmp
+
+# OS local
+*.log

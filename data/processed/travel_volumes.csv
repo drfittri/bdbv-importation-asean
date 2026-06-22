@@ -1,0 +1,24 @@
+origin,destination,destination_country,scenario_label,travellers_2week_central,travellers_2week_low,travellers_2week_high,source,notes
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 10,10,5,20,Hypothetical (mirrors ECDC approach),Conservative lower bound. No direct flights; all via DXB/DOH. Outbreak region airports partially closed.
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 25,25,15,40,Hypothetical (mirrors ECDC approach),Low scenario. Reflects minimal connectivity from Ituri/North Kivu to ASEAN.
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 50,50,30,80,Hypothetical (mirrors ECDC approach),Medium scenario.
+DRC (outbreak region),Malaysia (KUL),Malaysia,Scenario 100,100,60,150,Hypothetical (mirrors ECDC approach),Upper bound matching ECDC conservative estimate for EU/EEA.
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 10,10,5,20,Hypothetical (mirrors ECDC approach),ASEAN combined: KUL+SIN+BKK+CGK+MNL. Lower bound.
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 25,25,15,40,Hypothetical (mirrors ECDC approach),ASEAN combined low scenario.
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 50,50,30,80,Hypothetical (mirrors ECDC approach),ASEAN combined medium scenario.
+DRC+Uganda (outbreak region),ASEAN hubs combined,ASEAN,Scenario 100,100,60,150,Hypothetical (mirrors ECDC approach),ASEAN combined upper bound. Matches ECDC 100-traveller scenario for EU/EEA.
+
+CONTEXT:
+- ECDC used hypothetical scenarios of 10-100 travellers for EU/EEA over 11-25 June 2026
+- Actual travel volume from outbreak region (Ituri + North Kivu) to any destination is unknown
+- ECDC: "100 travellers is a conservative upper estimate based on available historical flight data
+  and the closure of multiple airports in the proximity of the outbreak region"
+- Tuite et al. 2019 (PMID 31414699): outbreak region airports (Beni/Bunia/Goma) had only ~30,000
+  outbound passengers over 4 months in 2018; 72.4% stayed within DRC
+- No direct flights DRC/Uganda to any ASEAN country (MOH Malaysia confirmed)
+- All routes transit via DXB, DOH, NBO, or SIN
+- PLAN v2 override: use hypothetical scenarios, NOT pseudo-precise IATA estimates
+- The per-traveller importation probability from ECDC model is destination-independent
+  (ECDC: "the underlying per-traveller probabilities are independent of the destination")
+- Therefore the same traveller count N applied to ASEAN gives the same per-traveller risk
+  as EU/EEA; only the total traveller scenario differs

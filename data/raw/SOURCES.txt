@@ -105,6 +105,7 @@ DATA EXCLUSIONS (explicitly NOT used)
   this figure IS now verified via the INSP_SitRep time series
   (837 / 196 on 15 June, 896 / 232 on 17 June). The "17 June" date in the
   draft was off by 2 days; the figures themselves are correct.
-- "CFR 25–51%" — original plan invention. Real CFR is 11–18% among confirmed
-  cases per WHO DONs (lower than historical Bundibugyo outbreaks due to
-  early supportive care; includes backlog-confirmed cases).
+- "CFR 25–51%" — original plan invention. Real confirmed CFR per INSP
+  SitRep: 7.5–10% early (May), rising to 20–26% by mid-June as backlog
+  deaths are reclassified. WHO DON-reported CFR ranged 11–18% through
+  early June (DON603–DON606).

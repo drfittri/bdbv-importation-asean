@@ -1,0 +1,146 @@
+=== BDBV IMPORTATION RISK MODEL PARAMETERS ===
+Source: ECDC importation risk brief, June 2026
+       "Estimation of the importation risk of Bundibugyo virus into the EU/EEA in June 2026"
+       ECDC: Stockholm; 15 June 2026.
+       ISBN 978-92-9498-892-8; DOI: 10.2900/8330190
+       Local copy: data/raw/ecdc/ECDC_BDBV_importation_brief_2026.pdf
+Extracted: 2026-06-23
+
+=== ECDC BASELINE ESTIMATES (EU/EEA) ===
+Study period: 11-25 June 2026 (15 days)
+Model initialisation date: t=0 corresponds to 18 May 2026
+Estimated travellers per 1 importation: ~24,000
+  (90% UI: 13,000 - 54,000)
+Probability of >=1 importation (100 travellers, 11-25 Jun): 0.45%
+  (90% UI: 0.20% - 0.85%)
+Probability of >=1 importation (10 travellers, 11-25 Jun): 0.05%
+  (90% UI: 0.02% - 0.09%)
+Monte Carlo simulations (ECDC): n_sim = 500
+
+=== COMPARTMENTAL MODEL STRUCTURE (Annex 1) ===
+6 compartments: S (susceptible), E (exposed/latent),
+  I_R (infectious, will recover), I_D (infectious, will die),
+  R (recovered), D (deceased)
+SEIR-type ODE model, homogeneous mixing, deterministic (mean-field)
+Exponential sojourn times (Markov property)
+No population structure, no adaptive behaviour, no interventions
+Post-mortem transmission captured via I_D compartment
+
+=== ODE SYSTEM ===
+dS/dt = -beta * S * (I_R + I_D) / N
+dE/dt =  beta * S * (I_R + I_D) / N - sigma * E
+dI_R/dt = (1 - p_death) * sigma * E - gamma * I_R
+dI_D/dt = p_death * sigma * E - mu * I_D
+dR/dt =  gamma * I_R
+dD/dt =  mu * I_D
+
+beta = R0 * gamma  (when mu = gamma; general: R0 = beta * E[T_inf])
+  where E[T_inf] = (1 - p_death)/gamma + p_death/mu
+
+=== PARAMETER VALUES (Table A, Annex 3) ===
+Population size N: 13,392,200
+  Source: McCabe et al. [6] (Ituri + North Kivu)
+  Distribution: fixed
+
+R0 (basic reproduction number): 1.24
+  Source: Mean of estimates in Choi et al. [16]
+  Distribution: normal (for MC sampling)
+
+CFR / infection fatality proportion (p_death): 0.32 - 0.54
+  Source: Lower bound MacNeil et al. [17], upper bound Rosello et al. [18]
+  Distribution: uniform (sampled from this range)
+
+Incubation period (1/sigma): 10 days (range 2-21)
+  Source: CDC [15]
+  Distribution: gamma-based with specified mean and bounds
+  (time from infection to becoming infectious)
+
+Presymptomatic period: 6.22 days
+  Source: Velasquez et al. [14]
+  (time until first 'dry' symptoms appear; fixed)
+  Alpha (fraction of incubation with dry symptoms) = (10 - 6.22) / 10 = 0.378
+
+Infectious period when recovering (1/gamma): 10 days (range 2-26)
+  Source: Wamala et al. [19]
+  Distribution: gamma-based with specified mean and bounds
+
+Infectious period when dying (1/mu): 10 days (range 3-21)
+  Source: Wamala et al. [19]
+  Distribution: gamma-based with specified mean and bounds
+
+Reported deaths at 22 May 2026: 204 (suspected)
+  Source: INSP [8] and McCabe et al. [6]
+
+Total infections by 22 May 2026: 1,054
+  Source: McCabe et al. [6] (back-calculation from 204 suspected deaths)
+
+Dark factor deaths (under-ascertainment): 0.806
+  (fraction of deaths not reported; estimated from suspected deaths
+   and total cases as of 22 May 2026)
+
+=== MODEL INITIALISATION (t=0 = 18 May 2026) ===
+D(0) = 131 (initial suspected deaths from INSP)
+R(0) = D(0) * (1 - p_death) / p_death
+x_init = 677 (initial total infected: I_R(0) + I_D(0) + D(0) + R(0))
+  Derived from ratio 1054/204 * D(0)
+I_R(0) = (x_init - D(0) - R(0)) * (1 - p_death)
+I_D(0) = (x_init - D(0) - R(0)) * p_death
+E(0) = (1 / ((1-p_death)*sigma / (gamma + lambda1) + p_death*sigma / (mu + lambda1))) * I(0)
+  where I(0) = I_R(0) + I_D(0), lambda1 = largest real eigenvalue of linearised system
+
+=== IMPORTATION STEP (Annex 2) ===
+Per-traveller infection probability on day t:
+  p(t) = E(t)/N * (1 - alpha * p_E) + I(t)/N * (1 - p_I)
+
+  where:
+    p_E = 0.1  (travel reduction for dry symptoms; 10% lower than susceptible)
+    p_I = 0.9  (travel reduction for wet symptoms; 90% lower than susceptible)
+    alpha = 0.378  (fraction of incubation period with dry symptoms)
+    E(t) = exposed count from compartmental model
+    I(t) = I_R(t) + I_D(t) = infectious count from compartmental model
+    N = 13,392,200
+
+Daily importation probability (N_out travellers on day t):
+  p_imp(t) = 1 - (1 - p(t))^{N_out(t)}
+
+Cumulative importation probability over study period (t=1..15, i.e. 11-25 June):
+  p_imp = 1 - PRODUCT_{t=1}^{15} (1 - p_imp(t))
+
+Travellers per importation (day t):
+  N_out,pI = 1 / p(t)
+
+=== TRAVEL PROBABILITY REDUCTION PARAMETERS ===
+p_E (dry symptoms): 0.1
+  Source: ECDC expert opinion (mild symptoms unspecific)
+p_I (wet symptoms): 0.9
+  Source: ECDC expert opinion (infectious individuals too sick to travel)
+
+=== ECDC CODE REFERENCE ===
+ECDC code (ref [9]): https://code.europa.eu/ecdc/ebola_importation_risk
+  (ECDC GitLab repository for Ebola importation risk model)
+epiforecasts/BVDOutbreakSize: https://github.com/epiforecasts/BVDOutbreakSize
+  (Bayesian re-analysis of outbreak size)
+
+=== FIXED PARAMETERS FOR THIS ANALYSIS (Malaysia/ASEAN adaptation) ===
+Study window: 11-25 June 2026 (same as ECDC, 15 days)
+Population N: 13,392,200 (same as ECDC)
+Monte Carlo iterations: 10,000 (plan specifies; ECDC used 500)
+  NOTE: Using higher count than ECDC for tighter UIs. This is a deviation
+  from ECDC's n_sim=500 but improves precision for ASEAN scenarios where
+  probabilities will be very small.
+Uncertainty interval: 90% (matching ECDC)
+set.seed(20260622) for reproducibility
+Traveller scenarios: N = 10, 25, 50, 100 (hypothetical, mirroring ECDC approach)
+  ECDC explored 10-100; we extend with 25 and 50 for finer resolution
+
+=== KEY REFERENCES (from ECDC PDF) ===
+[6] McCabe R et al. Imperial College London, 2026.
+    DOI: 10.1016/S1473-3099(26)00299-9
+[8] INSP DRC. https://github.com/INRBUMIE/BDBV2026-Data/tree/main/data/insp_sitrep
+[9] ECDC code. https://code.europa.eu/ecdc/ebola_importation_risk
+[14] Velasquez GE et al. Clin Infect Dis. 2015;61(7):1135-40. PMID: 26129757
+[15] US CDC. Ebola Disease Basics. https://www.cdc.gov/ebola/about/index.html
+[16] Choi B et al. Biomath. 2019;8(2):1910037. PMC7665115
+[17] MacNeil A et al. J Infect Dis. 2011;204 Suppl 3:S761-7. PMID: 21987748
+[18] Rosello A et al. Elife. 2015;4:e09015. PMID: 26525597
+[19] Wamala JF et al. Emerg Infect Dis. 2010;16(7):1087-92. PMID: 20587179

@@ -7,12 +7,12 @@ date,country,source,confirmed_cases,confirmed_deaths,cfr_pct,provinces_or_hz,not
 2026-05-20,DRC,INSP_SitRep,64,6,9.4,Ituri,INSP cumulative
 2026-05-21,DRC,WHO_DON603,83,9,10.8,"15 HZ across Ituri, North Kivu, South Kivu","DON603: 746 suspected incl 176 deaths; 2 confirmed UGA incl 1 death"
 2026-05-27,DRC,WHO_DON605,125,17,13.6,"13 HZ (Ituri 7, N Kivu 5, S Kivu 1)","DON605: 906 suspected incl 223 deaths"
-2026-05-29,DRC,INSP_SitRep,165,18,10.9,Ituri+North Kivu,INSP cumulative
-2026-06-02,DRC,INSP_SitRep,294,46,15.6,Ituri+North Kivu,INSP cumulative
-2026-06-05,DRC,INSP_SitRep,432,71,16.4,Ituri+North Kivu,INSP cumulative
+2026-05-29,DRC,INSP_SitRep,263,42,16.0,Ituri+North Kivu,INSP cumulative (corrected from erroneous 165/18)
+2026-06-02,DRC,INSP_SitRep,363,62,17.1,Ituri+North Kivu,INSP cumulative (corrected from erroneous 294/46)
+2026-06-05,DRC,INSP_SitRep,488,86,17.6,Ituri+North Kivu,INSP cumulative (corrected from erroneous 432/71)
 2026-06-06,DRC,WHO_DON606,515,91,17.7,"DRC HZ (full)","DON606: 19 confirmed UGA incl 2 deaths"
-2026-06-09,DRC,INSP_SitRep,635,118,18.6,Ituri+North Kivu,ECDC cited figure
-2026-06-12,DRC,INSP_SitRep,768,159,20.7,Ituri+North Kivu,INSP cumulative
+2026-06-09,DRC,INSP_SitRep,635,127,20.0,Ituri+North Kivu,"ECDC cited figure; deaths corrected from erroneous 118"
+2026-06-13,DRC,INSP_SitRep,782,181,23.1,Ituri+North Kivu,"INSP cumulative (replaced erroneous 06-12 entry which had no INSP data)"
 2026-06-15,DRC,INSP_SitRep,837,196,23.4,Ituri+North Kivu,INSP cumulative
 2026-06-16,DRC,INSP_SitRep,875,202,23.1,Ituri+North Kivu,INSP cumulative
 2026-06-17,DRC,INSP_SitRep,896,232,25.9,Ituri+North Kivu,INSP cumulative

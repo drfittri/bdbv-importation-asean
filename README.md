@@ -51,7 +51,7 @@ research plan.md   # full execution plan (v2 corrections)
 
 1. Clone: `git clone https://github.com/drfittri/bdbv-importation-asean`
 2. Open in R ≥ 4.3.0.
-3. Install packages: `source("setup.R")` (or see `01_data_prep.R` header).
+3. Install packages (see `01_data_prep.R` header for the package list).
 4. Run in order: `01_data_prep.R` → `02_model.R` → `03_figures.R`.
 5. Manuscript rendered from `manuscript/` with Quarto / pandoc.
 

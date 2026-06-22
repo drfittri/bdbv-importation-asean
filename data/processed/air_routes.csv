@@ -1,0 +1,14 @@
+origin_airport,origin_city,destination_airport,destination_city,destination_country,transit_hub_1,transit_hub_2,airline_example,route_exists,notes
+FIH,Kinshasa,KUL,Kuala Lumpur,Malaysia,DXB,DOH,Emirates/Qatar Airways,TRUE,No direct flight. Transit via DXB (Emirates) or DOH (Qatar). FIH-DXB served by Emirates; DXB-KUL direct.
+EBB,Entebbe,KUL,Kuala Lumpur,Malaysia,DXB,DOH,Emirates/Qatar Airways,TRUE,No direct flight. EBB-DXB served by Emirates; DXB-KUL direct. Also via DOH (Qatar Airways EBB-DOH).
+FIH,Kinshasa,SIN,Singapore,Singapore,DXB,DOH,Emirates/Qatar Airways,TRUE,No direct flight. Via DXB (Emirates DXB-SIN) or DOH (Qatar DOH-SIN).
+EBB,Entebbe,SIN,Singapore,Singapore,NBO,DXB,Kenya Airways/Emirates,TRUE,No direct flight. Via NBO (Kenya Airways) or DXB (Emirates). EBB-NBO direct; NBO-SIN may require additional transit.
+FIH,Kinshasa,BKK,Bangkok,Thailand,DXB,DOH,Emirates/Qatar Airways,TRUE,No direct flight. Via DXB (DXB-BKK direct) or DOH (DOH-BKK direct).
+EBB,Entebbe,BKK,Bangkok,Thailand,DXB,NBO,Emirates/Kenya Airways,TRUE,No direct flight. EBB-DXB direct (Emirates); DXB-BKK direct. Also EBB-NBO (Kenya Airways); NBO-BKK direct.
+FIH,Kinshasa,CGK,Jakarta,Indonesia,DXB,SIN,Emirates/Singapore Airlines,TRUE,"No direct flight. Via DXB (DXB-CGK direct, Emirates) or via SIN (SIN-CGK direct, multiple carriers)."
+EBB,Entebbe,CGK,Jakarta,Indonesia,DXB,SIN,Emirates/Singapore Airlines,TRUE,No direct flight. Via DXB or SIN. EBB-DXB direct; DXB-CGK direct.
+GOM,Goma,KUL,Kuala Lumpur,Malaysia,FIH,DXB,Multiple,FALSE,"Goma airport status uncertain (ECDC reports closures). If operational, routes via FIH then DXB/DOH. Tuite et al. 2019: 94.6% of outbreak-region passengers departed from Goma."
+BUX,Bunia,KUL,Kuala Lumpur,Malaysia,FIH,DXB,N/A,FALSE,Bunia airport minimal commercial service. Tuite et al. 2019: very few international passengers. Routes via FIH if operational.
+GOM,Goma,SIN,Singapore,Singapore,FIH,DXB,Multiple,FALSE,"Goma airport closure reported. If operational, transit via FIH then DXB/DOH to SIN."
+EBB,Entebbe,MNL,Manila,Philippines,DXB,DOH,Emirates/Qatar Airways,TRUE,No direct flight. Via DXB (DXB-MNL direct) or DOH (DOH-MNL direct). Added as 5th ASEAN hub.
+FIH,Kinshasa,MNL,Manila,Philippines,DXB,DOH,Emirates/Qatar Airways,TRUE,No direct flight. Via DXB or DOH. Added as 5th ASEAN hub.

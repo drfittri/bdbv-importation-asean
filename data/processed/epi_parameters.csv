@@ -1,0 +1,14 @@
+parameter,value,source
+latest_date,2026-06-19,INSP SitRep national cumulative
+confirmed_cases,956,INSP SitRep national cumulative
+confirmed_deaths,247,INSP SitRep national cumulative
+cfr,0.2584,confirmed_deaths / confirmed_cases
+cfr_pct,25.84,confirmed_deaths / confirmed_cases * 100
+daily_growth_rate_r,0.113551,log-linear regression on cumulative cases
+doubling_time_days,6.1,log(2) / daily_growth_rate_r
+growth_r_squared,0.8842,summary(growth_model)$r.squared
+daily_growth_rate_r_window,0.048383,"log-linear regression, 5-19 Jun 2025"
+doubling_time_days_window,14.3,log(2) / daily_growth_rate_r_window
+r0_ecdc_reference,1.24,ECDC Annex 3 Table A (Choi et al. mean)
+ecdc_study_window,2026-06-11 to 2026-06-25,ECDC brief
+outbreak_region_population_N,13392200,McCabe et al. / ECDC Annex 3
